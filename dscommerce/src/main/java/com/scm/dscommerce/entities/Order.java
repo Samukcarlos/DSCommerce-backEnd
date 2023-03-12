@@ -3,6 +3,10 @@ package com.scm.dscommerce.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity // para que minha entiti possa ser mapeada em uma tabela no Banco de Dados H2
 @Table(name = "tb_order") // para personalizar o nome da tabelo no Banco de Dados H2
 public class Order {
@@ -16,8 +20,9 @@ public class Order {
     @JoinColumn(name = "client_id") // inclui um campo na tabela orde com o nome da chave estrangeira client_id (lado do "munitos")
     private User client; // implementando relacionamento muitos para 1 (user Client)
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) // relacionamento um para um
-
     private Payment payment; // relacionamento
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -51,6 +56,18 @@ public class Order {
         this.client = client;
     }
 
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+    public List<Product> getProducts() {
+        return items.stream().map(x -> x.getProduct()).toList();
+
+        // transforma os itens tipo items para tipo product, assim podemos pegar produtos associados
+    }
     public Order(){
 
     }

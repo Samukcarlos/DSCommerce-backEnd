@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity // para que minha entiti possa ser mapeada em uma tabela no Banco de Dados H2
 @Table(name = "tb_user") // para personalizar o nome da tabelo no Banco de Dados H2
 public class User {
@@ -13,6 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto implementação no Banco de Dados relacional
     private Long id;
     private String nome;
+    @Column(unique = true) // Fazendo com que email também não seja repitido no DB.
     private String email;
     private String phone;
     private LocalDate birthDate;
