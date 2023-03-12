@@ -15,6 +15,9 @@ public class Order {
     @ManyToOne // mapeando muitos para um no banco de dados.
     @JoinColumn(name = "client_id") // inclui um campo na tabela orde com o nome da chave estrangeira client_id (lado do "munitos")
     private User client; // implementando relacionamento muitos para 1 (user Client)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) // relacionamento um para um
+
+    private Payment payment; // relacionamento
 
     public Long getId() {
         return id;
@@ -48,6 +51,10 @@ public class Order {
         this.client = client;
     }
 
+    public Order(){
+
+    }
+
     public Order(Long id, Instant moment, OrderStatus status, User client) {
         this.id = id;
         this.moment = moment;
@@ -55,5 +62,8 @@ public class Order {
         this.client = client;
 
     }
+
+
 }
+
 
