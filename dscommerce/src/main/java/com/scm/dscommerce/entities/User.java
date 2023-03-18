@@ -78,10 +78,12 @@ public class User {
     }
 
     public void setPassword(String password) {
+
         this.password = password;
     }
 
     public List<Order> getOrders() { // Para acessar a lista, NUNCA FAZER ser DE COLEÇÃO, LISTA
+
         return orders;
     }
 
