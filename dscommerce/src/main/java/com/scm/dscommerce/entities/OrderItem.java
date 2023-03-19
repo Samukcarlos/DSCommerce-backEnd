@@ -4,8 +4,8 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-@Entity // para que minha entiti possa ser mapeada em uma tabela no Banco de Dados H2
-@Table(name = "tb_order_item") // para personalizar o nome da tabelo no Banco de Dados H2
+@Entity // para que minha entity possa ser mapeada em uma tabela no Banco de Dados H2
+@Table(name = "tb_order_item") // para personalizar o nome da tabela no Banco de Dados H2
 public class OrderItem {
     @EmbeddedId
     private OrderItemPK id = new OrderItemPK(); // instanciando classe associada.
