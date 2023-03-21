@@ -1,15 +1,16 @@
 package com.scm.dscommerce.controllers;
 
 import com.scm.dscommerce.dto.ProductDTO;
-import com.scm.dscommerce.entities.Product;
-import com.scm.dscommerce.repositories.ProductRepository;
 import com.scm.dscommerce.services.ProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController // Configura para que esta classe responda na WEB
@@ -24,6 +25,14 @@ public class ProductController {
                                                 //Product product = result.get(); // .get pega o produto que está dentro do "Optional"
 
    }
-}
+   // @GetMapping () // buscando todos os produtos
+    //public List<ProductDTO> findALL(){ //
+      //  return services.findALL();
 
+    @GetMapping () // buscando todos os produtos
+    public Page<ProductDTO> findALL(Pageable pegeable){ // criando Paginação
+        return services.findALL(pegeable);
+    }
+
+}
 

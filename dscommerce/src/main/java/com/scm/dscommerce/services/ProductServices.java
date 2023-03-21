@@ -4,9 +4,12 @@ import com.scm.dscommerce.dto.ProductDTO;
 import com.scm.dscommerce.entities.Product;
 import com.scm.dscommerce.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,4 +24,16 @@ public class ProductServices {
         return dto;
 
     }
+    //@Transactional(readOnly = true)
+   // public List<ProductDTO> findALL(){  // findALL para buscar todos os produtos // Pageable pageable  -> paginação
+      //  List<Product> result = repository.findAll(); // repository.findAll() -> vai no banco de dados e busca todos os registros da entidade Product e colocar em uma Lista result
+       // return result.stream().map(x-> new ProductDTO(x)).toList() ; //convertendo Lista de produtos em ProductDTO
+        // Usando lambida map(x-> new ProductDTO(x) -> para cada registro da Lista original chamo new ProductDTO recebendo x
+        // Após chamar o stream para voltar para a Lista temos que chamar toList
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findALL(Pageable pageable ){  // Pageable pageable  -> paginação
+        Page<Product> result = repository.findAll(pageable);
+        return result.map(x -> new ProductDTO(x));
+}
 }
