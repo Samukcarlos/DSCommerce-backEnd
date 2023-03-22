@@ -54,7 +54,10 @@ public class ProductServices {
         copyDtoEntity(dto, entity);
         entity = repository.save(entity);
         return new ProductDTO(entity);
-
+    }
+    @Transactional
+    public void delete(Long id){
+        repository.deleteById(id);
     }
 
     private void copyDtoEntity(ProductDTO dto, Product entity) { // metodo criado para copia de valores
@@ -64,4 +67,5 @@ public class ProductServices {
         entity.setImgUrl(dto.getImgUrl());
 
     }
+
 }

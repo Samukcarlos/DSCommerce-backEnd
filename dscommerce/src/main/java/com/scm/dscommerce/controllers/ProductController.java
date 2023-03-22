@@ -60,5 +60,11 @@ public class ProductController {
         return ResponseEntity.ok(dto);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id){
+        services.delete(id);
+        return ResponseEntity.noContent().build(); // resposta sem corpo 204
+    }
+
 }
 
