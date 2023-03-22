@@ -31,9 +31,22 @@ public class ProductServices {
         // Usando lambida map(x-> new ProductDTO(x) -> para cada registro da Lista original chamo new ProductDTO recebendo x
         // Após chamar o stream para voltar para a Lista temos que chamar toList
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // operação de consulta
     public Page<ProductDTO> findALL(Pageable pageable ){  // Pageable pageable  -> paginação
         Page<Product> result = repository.findAll(pageable);
         return result.map(x -> new ProductDTO(x));
 }
+    @Transactional() // salvando no Banco de dados
+    public ProductDTO insert(ProductDTO dto){  // recebendo o json e instanciando DTO
+
+        Product entity =new Product(); // instanciando Product
+        entity.setNome(dto.getNome());// copiando os dados que chegaram no DTO e salvando em "entity"
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+
+        entity = repository.save(entity);// savando no banco de dados e na mesma variável entity
+        return new ProductDTO(entity); // reconverter para DTO e retornar no meu método
+
+    }
 }
