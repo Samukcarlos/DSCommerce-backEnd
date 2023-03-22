@@ -38,15 +38,30 @@ public class ProductServices {
 }
     @Transactional() // salvando no Banco de dados
     public ProductDTO insert(ProductDTO dto){  // recebendo o json e instanciando DTO
+        Product entity = new Product(); // instanciando Product
+        //entity.setNome(dto.getNome());// copiando os dados que chegaram no DTO e salvando em "entity"
+        //entity.setDescription(dto.getDescription());
+        //entity.setPrice(dto.getPrice());
+        //entity.setImgUrl(dto.getImgUrl());
+        copyDtoEntity(dto, entity);
+        entity = repository.save(entity);// savando no banco de dados e na mesma variável entity
+        return new ProductDTO(entity); // reconverter para DTO e retornar no meu método
 
-        Product entity =new Product(); // instanciando Product
-        entity.setNome(dto.getNome());// copiando os dados que chegaram no DTO e salvando em "entity"
+    }
+    @Transactional() // Atualizando dados
+    public ProductDTO update(Long id, ProductDTO dto){ //put recebendo id e corpo bory
+        Product entity = repository.getReferenceById(id); // instanciando pela referenci pelo banco de dados // repository.getReferenceById(id) -> não vai no DB apenas é monitorado pelo JPA
+        copyDtoEntity(dto, entity);
+        entity = repository.save(entity);
+        return new ProductDTO(entity);
+
+    }
+
+    private void copyDtoEntity(ProductDTO dto, Product entity) { // metodo criado para copia de valores
+        entity.setNome(dto.getNome());
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
-
-        entity = repository.save(entity);// savando no banco de dados e na mesma variável entity
-        return new ProductDTO(entity); // reconverter para DTO e retornar no meu método
 
     }
 }

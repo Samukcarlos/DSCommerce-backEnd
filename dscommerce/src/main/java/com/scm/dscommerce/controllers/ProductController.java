@@ -50,8 +50,14 @@ public class ProductController {
     @PostMapping ()
     public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto){
         dto =  services.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);// Devolvendo como resposta no Postman 201 ("created") e no cabessálho da resposta terá o link do recurso criado a URI
+    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) { // No Put tambem tenho o corpo Bary
+        dto = services.update(id, dto);
+        return ResponseEntity.ok(dto);
     }
 
 }
