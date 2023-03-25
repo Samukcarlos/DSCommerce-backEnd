@@ -2,6 +2,7 @@ package com.scm.dscommerce.controllers;
 
 import com.scm.dscommerce.dto.ProductDTO;
 import com.scm.dscommerce.services.ProductServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +38,7 @@ public class ProductController {
     //public Page<ProductDTO> findALL(Pageable pegeable){ // criando Paginação
       //  return services.findALL(pegeable);
 
-    @GetMapping () //
+    @GetMapping //
     public ResponseEntity<Page<ProductDTO>> findALL(Pageable pegeable){ //ResponseEntity -> assinatura do método
         Page<ProductDTO> dto = services.findALL(pegeable);
         return ResponseEntity.ok(dto);
@@ -47,21 +48,21 @@ public class ProductController {
       //  dto =  services.insert(dto);
       //  return dto;
 
-    @PostMapping ()
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto){
+    @PostMapping
+    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto){ // @Valid -> Faz passar pelas verificações em ProductDTO (Campo vazio...)
         dto =  services.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);// Devolvendo como resposta no Postman 201 ("created") e no cabessálho da resposta terá o link do recurso criado a URI
     }
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) { // No Put tambem tenho o corpo Bary
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) { // No Put tambem tenho o corpo Bary
         dto = services.update(id, dto);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         services.delete(id);
         return ResponseEntity.noContent().build(); // resposta sem corpo 204
     }
