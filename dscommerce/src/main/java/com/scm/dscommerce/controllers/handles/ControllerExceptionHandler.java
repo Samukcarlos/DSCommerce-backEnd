@@ -41,5 +41,12 @@ public class ControllerExceptionHandler {
             }
             return ResponseEntity.status(status).body(err);
         }
+        @ExceptionHandler(ForbiddenException.class)
+        public ResponseEntity<CustomError> Forbidden(ForbiddenException e, HttpServletRequest request) {
+            // HttpServletRequest request-> recebendo a url que deu exceção
+            HttpStatus status = HttpStatus.FORBIDDEN; // 403
+            CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+            return ResponseEntity.status(status).body(err);
+        }
     }
 }

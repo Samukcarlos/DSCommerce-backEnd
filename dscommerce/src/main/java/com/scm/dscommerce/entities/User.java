@@ -98,6 +98,15 @@ public class User implements UserDetails {
         return orders;
     }
 
+    public boolean hasRole(String roleName){
+        for(role : roles){
+            if (role.getAuthority().equals(roleName)){
+                return  true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return "User{" +

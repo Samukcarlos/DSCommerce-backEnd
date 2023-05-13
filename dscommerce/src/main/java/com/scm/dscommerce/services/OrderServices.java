@@ -7,7 +7,8 @@ public class OrderService{
     private ProductRepository productRepository;
     @Autowired
    private OrderItemRepository orderItemRepository;
-
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private UserService userService;
@@ -15,6 +16,7 @@ public class OrderService{
     public OrderDTO findByID(Long id){ // método que recebe de argumento um id e retorna um productDTO apartir do id. (Servuces devolve DTO para o Rest)
         Order order = repository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException ("Recurso não encontrado"));
+                authService.validateSelforAdmin(order.getClient().getId());
                 return new OrderDTO(Order); //convertendo o produto para DTO
     }
 

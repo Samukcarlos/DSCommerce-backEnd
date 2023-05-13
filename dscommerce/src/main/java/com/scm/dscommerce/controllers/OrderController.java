@@ -19,13 +19,13 @@ import java.util.Optional;
 public class ProductController {
 @Autowired // injetar componente do productRepository
     private OrderServices services;
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping (value = "/{id}") // Customizando retorno de código de nenhum erro no Postman
     public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
         OrderDTO dto = services.findByID(id);
         return ResponseEntity.ok(dto);
 
-        @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+        @PreAuthorize("hasRole('ROLE_ADMIN')")
         @PostMapping
         public ResponseEntity<OrderDTO> insert(@Valid @RequestBody OrderDTO dto){ // @Valid -> Faz passar pelas verificações em ProductDTO (Campo vazio...)
             dto =  services.insert(dto);
