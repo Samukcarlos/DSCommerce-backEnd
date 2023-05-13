@@ -18,6 +18,9 @@ public class ProductDTO {
     private Double price;
     private String imgUrl;
 
+    @NotEmpty(message = "DEve ter pelo menos uma categoria")
+    private List<CategoryDTO> Categories = new ArrayList<>();
+
     public ProductDTO(Long id, String nome, String description, Double price, String imgUrl) {
         this.id = id;  // this esta referenciando o atributo da classe para que não tenha ambiguidade pois o parametro tem o mesmo nome do atrubuto da classe
         this.nome = nome;
@@ -32,6 +35,9 @@ public class ProductDTO {
         description = entity.getDescription();
         price = entity.getPrice();
         imgUrl = entity.getImgUrl();
+        for (Category cat : entity.getCategories()){
+            categories.add(new CategoryDTO(cat));
+        }
 
     }
 
@@ -53,5 +59,9 @@ public class ProductDTO {
 
     public String getImgUrl() {
         return imgUrl;
+    }
+
+    public List<CategoryDTO> getCategories() {
+        return Categories;
     }
 }
