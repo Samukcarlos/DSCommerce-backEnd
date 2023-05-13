@@ -20,6 +20,13 @@ public class User {
     @OneToMany(mappedBy = "client") // mapeamento muitos para um. inclui na tabela Order um campo na chave estrangeira
     private List<Order> orders = new ArrayList<>(); // lado do "um para muintos" como são muitos precisa de uma lista.
     // na classe User tenho uma lista de orders.
+
+    @ManyToMany(fetch = FetchType.EAGER) // relação muitos para muitos
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     public User(){
 
     }
@@ -80,6 +87,10 @@ public class User {
     public void setPassword(String password) {
 
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     public List<Order> getOrders() { // Para acessar a lista, NUNCA FAZER ser DE COLEÇÃO, LISTA
