@@ -39,8 +39,9 @@ public class ProductController {
       //  return services.findALL(pegeable);
 
     @GetMapping //
-    public ResponseEntity<Page<ProductDTO>> findALL(Pageable pegeable){ //ResponseEntity -> assinatura do método
-        Page<ProductDTO> dto = services.findALL(pegeable);
+    public ResponseEntity<Page<ProductMinDTO>> findALL(
+            @RequestParam(nome = "nome", defaultValue = "")String nome, Pageable pegeable){ //ResponseEntity -> assinatura do método
+        Page<ProductMinDTO> dto = services.findALL(nome, pegeable);
         return ResponseEntity.ok(dto);
     }
     //@PostMapping () // buscando todos os produtos

@@ -19,12 +19,12 @@ public class ProductServices {
     @Autowired
     private ProductRepository repository;
     @Transactional(readOnly = true) // pra lok de apenas leitura pois não estamos escrevendo no DB
-    public ProductDTO findByID(Long id){ // método que recebe de argumento um id e retorna um productDTO apartir do id. (Servuces devolve DTO para o Rest)
+    public ProductMinDTO findByID(Long id){ // método que recebe de argumento um id e retorna um productDTO apartir do id. (Servuces devolve DTO para o Rest)
             Product product = repository.findById(id).orElseThrow(
                     ()-> new ResourceNotFoundException ("Recurso não encontrado"));
             //findById(id) -> pegando produto no DB pelo id e guardando no "Optional"
             // pegando o produto de (Optional e salvando em product )// orElseThrow() -> tratando exceção
-            return new ProductDTO(product); //convertendo o produto para DTO
+            return new ProductMinDTO(product); //convertendo o produto para DTO
               }
     /*@Transactional(readOnly = true)
     public List<ProductDTO> findALL(){  // findALL para buscar todos os produtos // Pageable pageable  -> paginação
