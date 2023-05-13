@@ -24,3 +24,12 @@ public class ProductController {
     public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
         OrderDTO dto = services.findByID(id);
         return ResponseEntity.ok(dto);
+
+        @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+        @PostMapping
+        public ResponseEntity<OrderDTO> insert(@Valid @RequestBody OrderDTO dto){ // @Valid -> Faz passar pelas verificações em ProductDTO (Campo vazio...)
+            dto =  services.insert(dto);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(dto.getId()).toUri();
+            return ResponseEntity.created(uri).body(dto);// Devolvendo como resposta no Postman 201 ("created") e no cabessálho da resposta terá o link do recurso criado a URI
+        }
