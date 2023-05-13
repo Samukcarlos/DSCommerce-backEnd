@@ -47,7 +47,7 @@ public class ProductController {
     //public ProductDTO insert(@RequestBody ProductDTO dto){ // @RequestBody -> este será p corpo da requisição
       //  dto =  services.insert(dto);
       //  return dto;
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @PostMapping
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto){ // @Valid -> Faz passar pelas verificações em ProductDTO (Campo vazio...)
         dto =  services.insert(dto);
@@ -55,12 +55,13 @@ public class ProductController {
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);// Devolvendo como resposta no Postman 201 ("created") e no cabessálho da resposta terá o link do recurso criado a URI
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) { // No Put tambem tenho o corpo Bary
         dto = services.update(id, dto);
         return ResponseEntity.ok(dto);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         services.delete(id);

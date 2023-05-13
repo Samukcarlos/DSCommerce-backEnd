@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Entity // para que minha entiti possa ser mapeada em uma tabela no Banco de Dados H2
 @Table(name = "tb_user") // para personalizar o nome da tabelo no Banco de Dados H2
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto implementação no Banco de Dados relacional
     private Long id;
